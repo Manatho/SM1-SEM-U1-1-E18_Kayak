@@ -1,4 +1,4 @@
-# SM1-SEM-U1-1-E18_Kayak
+# SM1-SEM-U1-1-E18_Kayaklers
 
 Formål: Tracke point og forhindre snyd / gpsspoofing ect?
 - Er du i vand? (4)
