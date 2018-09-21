@@ -1,0 +1,1 @@
+console.log('Awesome and very functional server started')
