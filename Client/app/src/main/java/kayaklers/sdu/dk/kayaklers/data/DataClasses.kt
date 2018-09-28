@@ -2,7 +2,7 @@ package kayaklers.sdu.dk.kayaklers.data
 
 import android.location.Location
 
-data class Log (val id: Long, val duration: Long, val distance : Double, val valid : Boolean, val points : Int, val gpsPoints : List<GPSPoint>)
+data class Log (val startTime: Long, val duration: Long, val distance : Double, val valid : Boolean, val points : Int, val gpsPoints : List<GPSPoint>)
 
 data class GPSPoint(var latitude : Double, var longitude : Double, var altitude : Double){
     fun of(location : Location) {
