@@ -18,4 +18,9 @@ class NewLogActivity : AppCompatActivity() {
         val locationService = Intent(this@NewLogActivity, LocationMonitoringService::class.java)
         startService(locationService)
     }
+
+    //Opens up map fragment with and passes in route data to see current route
+    fun trackRoute() {
+
+    }
 }

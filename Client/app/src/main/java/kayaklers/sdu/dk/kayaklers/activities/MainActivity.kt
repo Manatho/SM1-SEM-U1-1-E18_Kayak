@@ -10,21 +10,21 @@ import kayaklers.sdu.dk.kayaklers.data.Log
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var btn_se_logs: Button
-    private lateinit var btn_ny_log: Button
-    private lateinit var btn_kort: Button
-    private lateinit var btn_vejr: Button
+    private lateinit var btn_logs: Button
+    private lateinit var btn_new_log: Button
+    private lateinit var btn_map: Button
+    private lateinit var btn_weather: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btn_se_logs = findViewById(R.id.se_logs) as Button
-        btn_ny_log = findViewById(R.id.ny_log) as Button
-        btn_kort = findViewById(R.id.kort) as Button
-        btn_vejr = findViewById(R.id.vejr) as Button
+        btn_logs = findViewById(R.id.logs) as Button
+        btn_new_log = findViewById(R.id.new_log) as Button
+        btn_map = findViewById(R.id.map) as Button
+        btn_weather = findViewById(R.id.weather) as Button
 
-        btn_se_logs.setOnClickListener(object: View.OnClickListener {
+        btn_logs.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View) {
                 val data : ArrayList<Log> = ArrayList()
                 data.add(Log(86400  * 1000,60 * 1000,10.0, true, 10, ArrayList()))
@@ -39,21 +39,21 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        btn_ny_log.setOnClickListener(object: View.OnClickListener {
+        btn_new_log.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View) {
                 val intent = Intent(this@MainActivity, NewLogActivity::class.java);
                 startActivity(intent)
             }
         })
 
-        btn_kort.setOnClickListener(object: View.OnClickListener {
+        btn_map.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View) {
                 val intent = Intent(this@MainActivity, MapActivity::class.java);
                 startActivity(intent)
             }
         })
 
-        btn_vejr.setOnClickListener(object: View.OnClickListener {
+        btn_weather.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View) {
                 val intent = Intent(this@MainActivity, WeatherActivity::class.java);
                 startActivity(intent)

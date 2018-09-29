@@ -85,7 +85,11 @@ class GetLogsActivity : AppCompatActivity() {
                             .setTitle(currentLog!!.startTime.toString())
                             .setMessage(currentLog!!.distance.toString())
                             .setPositiveButton("Map", ({d,_->
+                                //pass currentLog as bundle to MapActivity
                                 val intent = Intent(activity, MapActivity::class.java)
+                                var bundle = Bundle()
+                                bundle.putParcelable("selected_log", currentLog)
+                                intent.putExtra("logBundle", bundle)
                                 activity.startActivity(intent)
                             }))
                             .setNegativeButton("Close", ({d, _ -> d.dismiss()}))

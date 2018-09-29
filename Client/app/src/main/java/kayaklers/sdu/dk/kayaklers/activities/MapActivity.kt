@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.location.Location
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,10 +16,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import kayaklers.sdu.dk.kayaklers.R
+import kayaklers.sdu.dk.kayaklers.data.Log
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -49,7 +50,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
                 lastLocation = p0.lastLocation
-                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+                //placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
             }
         }
         createLocationRequest()
@@ -60,6 +61,26 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         map.getUiSettings().setZoomControlsEnabled(true)
         map.setOnMarkerClickListener(this)
         setUpMap()
+
+
+        //Get current selected log if there is one and draw gps points on map
+        val bundle = intent.getBundleExtra("logBundle")
+        var selected_log = bundle.getParcelable("selected_log") as Log
+        if(selected_log != null) {
+            var gpsPoints = selected_log.gpsPoints
+            var polylineOptions = PolylineOptions()
+            val latLngList: MutableList<LatLng> = mutableListOf<LatLng>()
+            for(gpsPoint in selected_log.gpsPoints) {
+                latLngList.add(LatLng(gpsPoint.latitude, gpsPoint.longitude))
+            }
+
+            polylineOptions.addAll(latLngList)
+            polylineOptions
+                    .width(5F)
+                    .color(Color.RED)
+
+            map.addPolyline(polylineOptions)
+        }
     }
 
     private fun startLocationUpdates() {
@@ -89,16 +110,17 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             if (location != null) {
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-                placeMarkerOnMap(currentLatLng)
+                //placeMarkerOnMap(currentLatLng)
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
     }
 
-    private fun placeMarkerOnMap(location: LatLng) {
+    /*private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
-        map.addMarker(markerOptions)
-    }
+         map.addMarker(markerOptions)
+     }*/
+
 
     private fun createLocationRequest() {
         locationRequest = LocationRequest()
