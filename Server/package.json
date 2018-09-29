@@ -8,6 +8,7 @@
     "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "apollo-codegen": "^0.20.2",
     "apollo-server-express": "^2.1.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",

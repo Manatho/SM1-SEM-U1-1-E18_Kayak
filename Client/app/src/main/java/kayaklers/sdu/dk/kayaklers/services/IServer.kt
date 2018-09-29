@@ -4,6 +4,7 @@ import kayaklers.sdu.dk.kayaklers.data.Log
 
 interface IServer {
     fun getLogs() : List<Log>
+    fun getLog() : Log
     fun addLog() : Log
     fun addLogs() : List<Log>
 

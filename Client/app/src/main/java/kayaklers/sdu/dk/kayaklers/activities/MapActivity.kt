@@ -65,11 +65,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
         //Get current selected log if there is one and draw gps points on map
         val bundle = intent.getBundleExtra("logBundle")
-        var selectedLog = bundle.getParcelable("selected_log") as Log
-        if(selectedLog != null) {
+        var selected_log = bundle.getParcelable("selected_log") as Log
+        if(selected_log != null) {
             var polylineOptions = PolylineOptions()
             val latLngList: MutableList<LatLng> = mutableListOf<LatLng>()
-            for(gpsPoint in selectedLog.gpsPoints) {
+            for(gpsPoint in selected_log.gpsPoints) {
                 latLngList.add(LatLng(gpsPoint.latitude, gpsPoint.longitude))
             }
 
