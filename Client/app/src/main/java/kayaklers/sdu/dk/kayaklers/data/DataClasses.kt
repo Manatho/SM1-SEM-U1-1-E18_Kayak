@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
 @Parcelize
-data class Log (val startTime: Long, val duration: Long, val distance : Double, val valid : Boolean, val points : Int, val gpsPoints : ArrayList<GPSPoint>)  : Parcelable
+data class Log (val startTime: Long, val duration: Long, val distance : Double, val valid : Boolean, val points : Int, val gpsPoints : List<GPSPoint>)  : Parcelable
 
 @Parcelize
 data class GPSPoint(var latitude : Double, var longitude : Double, var altitude : Double) : Parcelable{
