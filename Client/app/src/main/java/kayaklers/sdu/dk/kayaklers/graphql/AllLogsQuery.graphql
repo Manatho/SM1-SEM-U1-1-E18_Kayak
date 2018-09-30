@@ -1,0 +1,10 @@
+query allLogs {
+    allLogs {
+        id
+        duration
+        distance
+        valid
+        points
+        gpsPoints
+    }
+}

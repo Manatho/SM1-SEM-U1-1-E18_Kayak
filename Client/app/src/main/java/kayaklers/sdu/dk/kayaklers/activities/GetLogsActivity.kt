@@ -87,7 +87,7 @@ class GetLogsActivity : AppCompatActivity() {
                             .setPositiveButton("Map", ({d,_->
                                 //pass currentLog as bundle to MapActivity
                                 val intent = Intent(activity, MapActivity::class.java)
-                                var bundle = Bundle()
+                                val bundle = Bundle()
                                 bundle.putParcelable("selected_log", currentLog)
                                 intent.putExtra("logBundle", bundle)
                                 activity.startActivity(intent)

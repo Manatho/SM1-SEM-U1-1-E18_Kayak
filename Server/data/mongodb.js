@@ -3,8 +3,15 @@ const LogSchema = require('../models/Log');
 
 mongoose.Promise = global.Promise;
 
-const db = mongoose.createConnection('mongodb://localhost/kayaklers', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/kayaklers', {useNewUrlParser: true})
+    .then(() => {
+        console.log("Succesfully established connection to MongoDB")
+    })
+    .catch(err => {
+        console.error("Problem with connection to MongoDB", err.stack);
+        process.exit(1);
+    });
 
-const Log = db.model('Log', LogSchema);
+const Log = mongoose.model('Log', LogSchema);
 
 exports.Log = Log;

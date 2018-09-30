@@ -11,7 +11,11 @@ const resolvers = {
     },
     Mutation: {
         async createLog(_, {input}) {
-            const log = new Log({...input});
+            const count = await Log.count();
+            const log = new Log({
+                id: count + 1,
+                ...input,
+            });
             await log.save();
             return log.toObject();
         },

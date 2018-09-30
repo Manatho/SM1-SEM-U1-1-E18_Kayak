@@ -1,0 +1,10 @@
+query log ($id: Int!){
+    log (id: $id){
+        id
+        duration
+        distance
+        valid
+        points
+        gpsPoints
+    }
+}

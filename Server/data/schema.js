@@ -17,7 +17,6 @@ type Log {
 }
 
 input LogInput {
-    id: Int!
     duration: Float!
     distance: Float! 
     valid: Boolean!

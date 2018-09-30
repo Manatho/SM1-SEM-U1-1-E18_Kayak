@@ -63,22 +63,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         setUpMap()
 
 
-        //Get current selected log if there is one and draw gps points on map
-        val bundle = intent.getBundleExtra("logBundle")
-        var selected_log = bundle.getParcelable("selected_log") as Log
-        if(selected_log != null) {
-            var polylineOptions = PolylineOptions()
-            val latLngList: MutableList<LatLng> = mutableListOf<LatLng>()
-            for(gpsPoint in selected_log.gpsPoints) {
-                latLngList.add(LatLng(gpsPoint.latitude, gpsPoint.longitude))
+        if(intent.hasExtra("logBundle")) {
+            //Get current selected log if there is one and draw gps points on map
+            val bundle = intent.getBundleExtra("logBundle")
+            var selected_log = bundle.getParcelable("selected_log") as Log
+            if(selected_log != null) {
+                var polylineOptions = PolylineOptions()
+                val latLngList: MutableList<LatLng> = mutableListOf<LatLng>()
+                for(gpsPoint in selected_log.gpsPoints) {
+                    latLngList.add(LatLng(gpsPoint.latitude, gpsPoint.longitude))
+                }
+                polylineOptions.addAll(latLngList)
+                polylineOptions
+                        .width(5F)
+                        .color(Color.RED)
+
+                map.addPolyline(polylineOptions)
             }
-
-            polylineOptions.addAll(latLngList)
-            polylineOptions
-                    .width(5F)
-                    .color(Color.RED)
-
-            map.addPolyline(polylineOptions)
         }
     }
 
