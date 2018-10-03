@@ -2,7 +2,11 @@ package kayaklers.sdu.dk.kayaklers.services
 
 import kayaklers.sdu.dk.kayaklers.data.Log
 
-class ServerService: IServer {
+object ServerService: IServer {
+
+    override fun connect() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getLogs(): List<Log> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

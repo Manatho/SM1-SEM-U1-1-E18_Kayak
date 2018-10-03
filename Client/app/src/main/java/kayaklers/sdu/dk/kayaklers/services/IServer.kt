@@ -7,6 +7,7 @@ interface IServer {
     fun getLog() : Log
     fun addLog() : Log
     fun addLogs() : List<Log>
+    fun connect()
 
     fun getTotalTravelTime() : Long
     fun getTotalTravelDistance() : Double
