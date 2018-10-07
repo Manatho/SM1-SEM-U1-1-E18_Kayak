@@ -16,4 +16,4 @@ be sure to run ```npm install -g localtunnel``` to enable global access to local
 
 2. cd to server folder and run ```npm run dev```
 
-3. run ```lt --port 4000 --subdomain kayaklers```
+3. run ```lt --port 4000 --subdomain kayaklers``` (might only 1 instance of this subdomain can run, since its unique)
