@@ -9,5 +9,5 @@ app.use('/graphql', express_graphql({
     schema: schema,
     graphiql: true
 }));
-app.listen(port, () => console.log('Express GraphQL Server Now Running On localhost:4000/graphql'));
+app.listen(port, () => console.log('Express GraphQL Server Now Running On https://kayaklers.localtunnel.me/graphql'));
   

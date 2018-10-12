@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const LogSchema = require('../models/Log');
+const GPSPointSchema = require('../models/GPSPoint');
 
 mongoose.Promise = global.Promise;
 
@@ -13,5 +14,7 @@ mongoose.connect('mongodb://localhost/kayaklers', {useNewUrlParser: true})
     });
 
 const Log = mongoose.model('Log', LogSchema);
+const GPSPoint = mongoose.model('GPSPoint', GPSPointSchema);
 
 exports.Log = Log;
+exports.GPSPoint = GPSPoint;

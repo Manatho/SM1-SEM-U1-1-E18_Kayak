@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const logSchema = new Schema({
-    id: {type: Number, required: true},
-    duration: {type: Number, required: true},
-    distance: {type: Number, required: true},
-    valid: {type: Boolean, required: true},
-    points: {type: Number, required: true},
-    gpsPoints: {type: [String], required: true},
+const logSchema = new mongoose.Schema({
+    id: {type: Number},
+    startTime: {type: Number},
+    duration: {type: Number},
+    distance: {type: Number},
+    valid: {type: Boolean},
+    points: {type: Number},
+    GPSPoints: [{type: mongoose.Schema.Types.ObjectId, ref: 'GPSPoint'}],
 });
 
 module.exports = logSchema;

@@ -1,0 +1,9 @@
+mutation createLog($startTime: Float, $duration: Float, $distance: Float, $valid: Boolean, $points: Int) {
+  createLog(input: {startTime: $startTime, duration: $duration, distance: $distance, valid: $valid, points: $points}) {
+    startTime
+    duration
+    distance
+    valid
+    points
+  }
+}

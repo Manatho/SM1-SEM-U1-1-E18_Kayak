@@ -1,0 +1,11 @@
+query allGPSPoints {
+  allGPSPoints {
+    id
+    latitude
+    longitude
+    altitude
+    log {
+      id
+    }
+  }
+}

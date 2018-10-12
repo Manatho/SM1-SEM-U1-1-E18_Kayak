@@ -1,0 +1,10 @@
+mutation createGPSPoint($latitude: Float, $longitude:Float, $altitude: Float, $log: Int) {
+  createGPSPoint(input: {latitude: $latitude, longitude: $longitude, altitude: $altitude, log: $log}) {
+    latitude
+    longitude
+    altitude
+    log {
+      id
+    }
+  }
+}

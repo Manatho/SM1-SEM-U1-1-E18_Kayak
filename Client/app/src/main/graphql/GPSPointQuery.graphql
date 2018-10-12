@@ -1,0 +1,16 @@
+query GPSPoint($id: Int) {
+  GPSPoint(id: $id) {
+    id
+    latitude
+    longitude
+    altitude
+    log {
+      id
+      startTime
+      duration
+      distance
+      valid
+      points
+    }
+  }
+}

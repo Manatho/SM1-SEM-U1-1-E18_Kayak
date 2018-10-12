@@ -1,9 +1,0 @@
-mutation createLog($id: Int!, $duration: Float!, $distance: Float!, $valid: Boolean, $points: Int!, $gpsPoints: [String!]! {
-    createLog(input: {id: $id, duration: duration$, distance: $distance, valid: $valid, points: $points, gpsPoints: $gpsPoints}) {
-        duration
-        distance
-        valid
-        points
-        gpsPoints
-    }
-}

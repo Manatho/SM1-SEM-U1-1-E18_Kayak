@@ -4,30 +4,48 @@ const resolvers = require('./resolvers');
 const typeDefs = `
 type Query {
    log(id: Int): Log
-   allLogs: [Log] 
+   GPSPoint(id: Int): GPSPoint
+   allLogs: [Log]  
+   allGPSPoints: [GPSPoint]
 }
 
 type Log {
-    id: Int!
-    duration: Float!
-    distance: Float! 
-    valid: Boolean!
-    points: Int!
-    gpsPoints: [String!]! 
+    id: Int
+    startTime: Float
+    duration: Float
+    distance: Float
+    valid: Boolean
+    points: Int 
+    GPSPoints: [GPSPoint]
 }
 
 input LogInput {
-    duration: Float!
-    distance: Float! 
-    valid: Boolean!
-    points: Int!
-    gpsPoints: [String!]! 
+    startTime: Float
+    duration: Float
+    distance: Float
+    valid: Boolean
+    points: Int
+}
+
+type GPSPoint {
+    id: Int
+    latitude: Float
+    longitude: Float
+    altitude: Float
+    log: Log
+}
+
+input GPSPointInput {
+    latitude: Float
+    longitude: Float
+    altitude: Float
+    log: Int
 }
 
 type Mutation {
     createLog(input: LogInput!): Log
-}
-`
+    createGPSPoint(input: GPSPointInput!): GPSPoint
+}`;
 
 const schema = makeExecutableSchema({typeDefs, resolvers});
 

@@ -1,0 +1,16 @@
+query allLogs {
+  allLogs {
+    id
+    startTime
+    duration
+    distance
+    valid
+    points
+    GPSPoints {
+      id
+      latitude
+      longitude
+      altitude
+    }
+  }
+}
