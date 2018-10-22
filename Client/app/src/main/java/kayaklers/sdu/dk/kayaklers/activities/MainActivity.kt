@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
 import kayaklers.sdu.dk.kayaklers.R
+import kayaklers.sdu.dk.kayaklers.data.GPSPoint
 import kayaklers.sdu.dk.kayaklers.data.Log
+import kayaklers.sdu.dk.kayaklers.services.ServerService
 
 class MainActivity : AppCompatActivity() {
 

@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import kayaklers.sdu.dk.kayaklers.data.Log
+import kayaklers.sdu.dk.kayaklers.services.ServerService
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,6 +34,12 @@ class GetLogsActivity : AppCompatActivity() {
         data.add(Log(86400  * 1000 * 4,240 * 1000,40.0, true, 40, ArrayList()))*/
 
         var data = intent.getSerializableExtra(DATA_MESSAGE)
+
+        /* TESTING GETTING FROM API
+        val serverService = ServerService()
+        var data = serverService.getLogs()
+        android.util.Log.e("DATA", data.toString())
+        */
 
 
         val rv : RecyclerView = findViewById(R.id.list)

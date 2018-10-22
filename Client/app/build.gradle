@@ -44,4 +44,7 @@ dependencies {
     implementation 'com.apollographql.apollo:apollo-http-cache:1.0.0-alpha2'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     implementation 'com.google.code.gson:gson:2.8.5'
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.2.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.2.0"
 }

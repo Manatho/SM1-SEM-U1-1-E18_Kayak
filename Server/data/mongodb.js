@@ -4,7 +4,7 @@ const GPSPointSchema = require('../models/GPSPoint');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/kayaklers', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost:27017/kayaklers', {useNewUrlParser: true})
     .then(() => {
         console.log("Succesfully established connection to MongoDB")
     })

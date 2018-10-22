@@ -26,9 +26,14 @@ class ServerService: IServer {
                 response.data()?.allLogs()?.forEach {
                     var gpsPoints: MutableList<GPSPoint> = mutableListOf()
                     for (gpsPoint in it.GPSPoints().orEmpty()){
-                        gpsPoints.add(GPSPoint(gpsPoint.latitude() as Double, gpsPoint.longitude() as Double, gpsPoint.altitude() as Double))
+                        gpsPoints.add(GPSPoint(gpsPoint?.latitude()!!.toDouble(), gpsPoint?.longitude()!!.toDouble(), gpsPoint?.altitude()!!.toDouble()))
                     }
-                    logs.add(Log(it.startTime() as Long, it.duration() as Long, it.distance() as Double, it.valid() as Boolean, it.points() as Int, gpsPoints))
+                    var startTime : Long? = it?.startTime()?.toLong()
+                    var duration : Long? = it?.startTime()?.toLong()
+                    var distance : Double? = it?.startTime()
+                    var valid : Boolean? = it?.valid()
+                    var points : Int? = it?.points()
+                    logs.add(Log(startTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints))
                 }
             }
         })
@@ -38,7 +43,7 @@ class ServerService: IServer {
     override fun getLog(id: Int): Log? {
         lateinit var log : Log
         apolloClient.query(
-                LogQuery.builder().id(id).build()).enqueue(object: ApolloCall.Callback<LogQuery.Data>() {
+                LogQuery.builder().id(id+1).build()).enqueue(object: ApolloCall.Callback<LogQuery.Data>() {
             override fun onFailure(@NotNull e: ApolloException) {
                 android.util.Log.e(TAG, e.message.toString())
             }
@@ -46,9 +51,14 @@ class ServerService: IServer {
             override fun onResponse(@NotNull response: Response<LogQuery.Data>) {
                 var gpsPoints: MutableList<GPSPoint> = mutableListOf()
                 response.data()?.log()?.GPSPoints()?.forEach{
-                    gpsPoints.add(GPSPoint(it.latitude() as Double, it.longitude() as Double, it.altitude() as Double))
+                    gpsPoints.add(GPSPoint(it?.latitude()!!.toDouble(), it?.longitude()!!.toDouble(), it?.altitude()!!.toDouble()))
                 }
-                log = Log(response.data()?.log()?.startTime() as Long, response.data()?.log()?.duration() as Long, response.data()?.log()?.distance() as Double, response.data()?.log()?.valid() as Boolean, response.data()?.log()?.points() as Int, gpsPoints)
+                var startTime : Long? = response.data()?.log()?.startTime()?.toLong()
+                var duration : Long? = response.data()?.log()?.startTime()?.toLong()
+                var distance : Double? = response.data()?.log()?.startTime()
+                var valid : Boolean? = response.data()?.log()?.valid()
+                var points : Int? = response.data()?.log()?.points()
+                log = Log(startTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints)
             }
             })
         return log
@@ -57,13 +67,14 @@ class ServerService: IServer {
     override fun getGPSPoint(id: Int): GPSPoint? {
         lateinit var gpsPoint : GPSPoint
         apolloClient.query(
-                GPSPointQuery.builder().id(id).build()).enqueue(object: ApolloCall.Callback<GPSPointQuery.Data>() {
+                GPSPointQuery.builder().id(id+1).build()).enqueue(object: ApolloCall.Callback<GPSPointQuery.Data>() {
             override fun onFailure(@NotNull e: ApolloException) {
                 android.util.Log.e(TAG, e.message.toString())
             }
 
             override fun onResponse(@NotNull response: Response<GPSPointQuery.Data>) {
-                gpsPoint = GPSPoint(response?.data()?.GPSPoint()?.latitude() as Double, response?.data()?.GPSPoint()?.longitude() as Double, response?.data()?.GPSPoint()?.altitude() as Double)
+
+                gpsPoint = GPSPoint(response?.data()?.GPSPoint()?.latitude()!!.toDouble(), response?.data()?.GPSPoint()?.longitude()!!.toDouble(), response?.data()?.GPSPoint()?.altitude()!!.toDouble())
             }
         })
         return gpsPoint
@@ -79,7 +90,7 @@ class ServerService: IServer {
 
             override fun onResponse(@NotNull response:  Response<AllGPSPointsQuery.Data>) {
                 response.data()?.allGPSPoints()?.forEach {
-                    gpsPoints.add(GPSPoint(it.latitude() as Double, it.longitude() as Double, it.altitude() as Double))
+                    gpsPoints.add(GPSPoint(it?.latitude()!!.toDouble(), it?.longitude()!!.toDouble(), it?.altitude()!!.toDouble()))
                 }
             }
         })
@@ -146,6 +157,14 @@ class ServerService: IServer {
         })
     }
 
+    override fun getLogCount(): Int {
+        var count : Int = 0
+        for (log in getLogs().orEmpty()) {
+            count += 1
+        }
+        return count
+    }
+
     override fun addLogs(logs : MutableList<Log>) {
         for (log in logs) {
             apolloClient.mutate(
@@ -168,7 +187,7 @@ class ServerService: IServer {
         }
     }
 
-    override fun getTotalTravelTime(id : Int): Long {
+    override fun getTotalTravelTime(): Long {
         var totalTravelTime : Long = 0
         for (log in getLogs().orEmpty()) {
             totalTravelTime += log.duration
@@ -176,7 +195,7 @@ class ServerService: IServer {
         return totalTravelTime
     }
 
-    override fun getTotalTravelDistance(id : Int): Double {
+    override fun getTotalTravelDistance(): Double {
         var totalTravelDistance : Double = 0.0
         for (log in getLogs().orEmpty()) {
             totalTravelDistance += log.distance
