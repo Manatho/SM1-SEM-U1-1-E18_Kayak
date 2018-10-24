@@ -1,7 +1,6 @@
 package kayaklers.sdu.dk.kayaklers.activities
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -15,7 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import kayaklers.sdu.dk.kayaklers.data.Log
-import kayaklers.sdu.dk.kayaklers.services.ServerService
+import kayaklers.sdu.dk.kayaklers.services.Callback
+import kayaklers.sdu.dk.kayaklers.services.ServerFacade
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,13 +33,21 @@ class GetLogsActivity : AppCompatActivity() {
         data.add(Log(86400  * 1000 * 3,180 * 1000,30.0, true, 30, ArrayList()))
         data.add(Log(86400  * 1000 * 4,240 * 1000,40.0, true, 40, ArrayList()))*/
 
-        var data = intent.getSerializableExtra(DATA_MESSAGE)
+        //var data = intent.getSerializableExtra(DATA_MESSAGE)
 
-        /* TESTING GETTING FROM API
-        val serverService = ServerService()
-        var data = serverService.getLogs()
-        android.util.Log.e("DATA", data.toString())
-        */
+        // TESTING GETTING FROM API
+        val serverFacade = ServerFacade()
+        var data = serverFacade.getLogs(cb = object : Callback<MutableList<Log>> {
+            override fun call(logs: MutableList<Log>) {
+                android.util.Log.e("LOG", logs.toString())
+            }
+        })
+
+
+
+
+        //android.util.Log.e("GPSPoint", serverFacade.getLog(1).toString())
+
 
 
         val rv : RecyclerView = findViewById(R.id.list)

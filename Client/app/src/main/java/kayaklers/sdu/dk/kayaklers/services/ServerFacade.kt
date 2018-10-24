@@ -1,6 +1,5 @@
 package kayaklers.sdu.dk.kayaklers.services
 
-import android.support.annotation.NonNull
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
@@ -9,12 +8,12 @@ import kayaklers.sdu.dk.kayaklers.data.GPSPoint
 import kayaklers.sdu.dk.kayaklers.data.Log
 import org.jetbrains.annotations.NotNull
 
-class ServerService: IServer {
+class ServerFacade: IServer{
 
-    private val TAG: String = "ServerService"
+    private val TAG: String = "ServerFacade"
     private val apolloClient = ApolloClient.setupApollo()
 
-    override fun getLogs(): MutableList<Log>? {
+    override fun getLogs(cb : Callback<MutableList<Log>>): MutableList<Log>? {
         var logs: MutableList<Log> = mutableListOf()
         apolloClient.query(
                 AllLogsQuery.builder().build()).enqueue(object: ApolloCall.Callback<AllLogsQuery.Data>() {
@@ -34,16 +33,17 @@ class ServerService: IServer {
                     var valid : Boolean? = it?.valid()
                     var points : Int? = it?.points()
                     logs.add(Log(startTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints))
+                    cb.call(logs)
                 }
             }
         })
         return logs
     }
 
-    override fun getLog(id: Int): Log? {
+    override fun getLog(id: Int, cb : Callback<Log>): Log? {
         lateinit var log : Log
         apolloClient.query(
-                LogQuery.builder().id(id+1).build()).enqueue(object: ApolloCall.Callback<LogQuery.Data>() {
+                LogQuery.builder().id(id).build()).enqueue(object: ApolloCall.Callback<LogQuery.Data>() {
             override fun onFailure(@NotNull e: ApolloException) {
                 android.util.Log.e(TAG, e.message.toString())
             }
@@ -59,28 +59,29 @@ class ServerService: IServer {
                 var valid : Boolean? = response.data()?.log()?.valid()
                 var points : Int? = response.data()?.log()?.points()
                 log = Log(startTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints)
+                cb.call(log)
             }
             })
         return log
     }
 
-    override fun getGPSPoint(id: Int): GPSPoint? {
+    override fun getGPSPoint(id: Int, cb : Callback<GPSPoint>): GPSPoint? {
         lateinit var gpsPoint : GPSPoint
         apolloClient.query(
-                GPSPointQuery.builder().id(id+1).build()).enqueue(object: ApolloCall.Callback<GPSPointQuery.Data>() {
+                GPSPointQuery.builder().id(id).build()).enqueue(object: ApolloCall.Callback<GPSPointQuery.Data>() {
             override fun onFailure(@NotNull e: ApolloException) {
                 android.util.Log.e(TAG, e.message.toString())
             }
 
             override fun onResponse(@NotNull response: Response<GPSPointQuery.Data>) {
-
                 gpsPoint = GPSPoint(response?.data()?.GPSPoint()?.latitude()!!.toDouble(), response?.data()?.GPSPoint()?.longitude()!!.toDouble(), response?.data()?.GPSPoint()?.altitude()!!.toDouble())
+                cb.call(gpsPoint)
             }
         })
         return gpsPoint
     }
 
-    override fun getGPSPoints(): MutableList<GPSPoint>? {
+    override fun getGPSPoints(cb : Callback<MutableList<GPSPoint>>): MutableList<GPSPoint>? {
         var gpsPoints: MutableList<GPSPoint> = mutableListOf()
         apolloClient.query(
                 AllGPSPointsQuery.builder().build()).enqueue(object: ApolloCall.Callback<AllGPSPointsQuery.Data>() {
@@ -91,6 +92,7 @@ class ServerService: IServer {
             override fun onResponse(@NotNull response:  Response<AllGPSPointsQuery.Data>) {
                 response.data()?.allGPSPoints()?.forEach {
                     gpsPoints.add(GPSPoint(it?.latitude()!!.toDouble(), it?.longitude()!!.toDouble(), it?.altitude()!!.toDouble()))
+                    cb.call(gpsPoints)
                 }
             }
         })
@@ -157,14 +159,6 @@ class ServerService: IServer {
         })
     }
 
-    override fun getLogCount(): Int {
-        var count : Int = 0
-        for (log in getLogs().orEmpty()) {
-            count += 1
-        }
-        return count
-    }
-
     override fun addLogs(logs : MutableList<Log>) {
         for (log in logs) {
             apolloClient.mutate(
@@ -187,20 +181,41 @@ class ServerService: IServer {
         }
     }
 
+    override fun getLogCount(): Int {
+        var count : Int = 0
+        getLogs(cb = object : Callback<MutableList<Log>> {
+            override fun call(logs: MutableList<Log>) {
+                for(log in logs) {
+                    count += 1
+                }
+            }
+        })
+        return count
+    }
+
     override fun getTotalTravelTime(): Long {
         var totalTravelTime : Long = 0
-        for (log in getLogs().orEmpty()) {
-            totalTravelTime += log.duration
-        }
+        getLogs(cb = object : Callback<MutableList<Log>> {
+            override fun call(logs: MutableList<Log>) {
+                for(log in logs) {
+                    totalTravelTime += log.duration
+                }
+            }
+        })
         return totalTravelTime
     }
 
     override fun getTotalTravelDistance(): Double {
         var totalTravelDistance : Double = 0.0
-        for (log in getLogs().orEmpty()) {
-            totalTravelDistance += log.distance
-        }
+        getLogs(cb = object : Callback<MutableList<Log>> {
+            override fun call(logs: MutableList<Log>) {
+                for(log in logs) {
+                    totalTravelDistance += log.distance
+                }
+            }
+        })
         return totalTravelDistance
     }
+
 
 }

@@ -1,16 +1,11 @@
 package kayaklers.sdu.dk.kayaklers
 
-import kayaklers.sdu.dk.kayaklers.data.GPSPoint
-import kayaklers.sdu.dk.kayaklers.data.Log
-import kayaklers.sdu.dk.kayaklers.services.ServerService
-import org.junit.Test
-
-import org.junit.Assert.*
+import kayaklers.sdu.dk.kayaklers.services.ServerFacade
 
 
 class apiTest {
 
-    private val serverService = ServerService()
+    private val serverService = ServerFacade()
 
 
 /*

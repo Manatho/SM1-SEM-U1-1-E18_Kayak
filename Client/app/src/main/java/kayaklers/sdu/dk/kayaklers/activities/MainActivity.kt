@@ -8,7 +8,7 @@ import android.widget.Button
 import kayaklers.sdu.dk.kayaklers.R
 import kayaklers.sdu.dk.kayaklers.data.GPSPoint
 import kayaklers.sdu.dk.kayaklers.data.Log
-import kayaklers.sdu.dk.kayaklers.services.ServerService
+import kayaklers.sdu.dk.kayaklers.services.ServerFacade
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,5 +61,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+        val serverFacade = ServerFacade()
+        serverFacade.addGPSPoint(GPSPoint(1.0,2.0,3.0), 1)
     }
 }
