@@ -29,10 +29,10 @@ class MainActivity : AppCompatActivity() {
         btn_logs.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View) {
                 val data : ArrayList<Log> = ArrayList()
-                data.add(Log(86400  * 1000,60 * 1000,10.0, true, 10, ArrayList()))
-                data.add(Log(86400  * 1000 * 2,120 * 1000,20.0, true, 20, ArrayList()))
-                data.add(Log(86400  * 1000 * 3,180 * 1000,30.0, true, 30, ArrayList()))
-                data.add(Log(86400  * 1000 * 4,240 * 1000,40.0, true, 40, ArrayList()))
+                data.add(Log(86400  * 1000,70000 * 1000, 60 * 1000,10.0, true, 10, ArrayList()))
+                data.add(Log(86400  * 1000 * 2, 70000 * 1000 * 2,120 * 1000,20.0, true, 20, ArrayList()))
+                data.add(Log(86400  * 1000 * 3, 70000 * 1000 * 3, 180 * 1000,30.0, true, 30, ArrayList()))
+                data.add(Log(86400  * 1000 * 4, 70000 * 1000 * 4, 240 * 1000,40.0, true, 40, ArrayList()))
 
 
                 val intent = Intent(this@MainActivity, GetLogsActivity::class.java);
@@ -61,7 +61,5 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-        val serverFacade = ServerFacade()
-        serverFacade.addGPSPoint(GPSPoint(1.0,2.0,3.0), 1)
     }
 }

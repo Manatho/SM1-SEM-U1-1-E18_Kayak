@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const logSchema = new mongoose.Schema({
     id: {type: Number},
     startTime: {type: Number},
+    endTime: {type: Number},
     duration: {type: Number},
     distance: {type: Number},
     valid: {type: Boolean},

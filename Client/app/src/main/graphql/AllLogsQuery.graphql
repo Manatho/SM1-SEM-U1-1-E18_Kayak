@@ -2,6 +2,7 @@ query allLogs {
   allLogs {
     id
     startTime
+    endTime
     duration
     distance
     valid

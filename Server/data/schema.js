@@ -12,6 +12,7 @@ type Query {
 type Log {
     id: Int
     startTime: Float
+    endTime: Float
     duration: Float
     distance: Float
     valid: Boolean
@@ -21,10 +22,6 @@ type Log {
 
 input LogInput {
     startTime: Float
-    duration: Float
-    distance: Float
-    valid: Boolean
-    points: Int
 }
 
 type GPSPoint {

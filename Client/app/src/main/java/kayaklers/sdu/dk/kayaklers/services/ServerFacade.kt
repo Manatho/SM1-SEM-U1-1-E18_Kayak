@@ -27,12 +27,13 @@ class ServerFacade: IServer{
                     for (gpsPoint in it.GPSPoints().orEmpty()){
                         gpsPoints.add(GPSPoint(gpsPoint?.latitude()!!.toDouble(), gpsPoint?.longitude()!!.toDouble(), gpsPoint?.altitude()!!.toDouble()))
                     }
-                    var startTime : Long? = it?.startTime()?.toLong()
-                    var duration : Long? = it?.startTime()?.toLong()
-                    var distance : Double? = it?.startTime()
-                    var valid : Boolean? = it?.valid()
-                    var points : Int? = it?.points()
-                    logs.add(Log(startTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints))
+                    val startTime : Long? = it?.startTime()?.toLong()
+                    val endTime : Long? = it?.endTime()?.toLong()
+                    val duration : Long? = it?.startTime()?.toLong()
+                    val distance : Double? = it?.startTime()
+                    val valid : Boolean? = it?.valid()
+                    val points : Int? = it?.points()
+                    logs.add(Log(startTime!!, endTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints))
                     cb.call(logs)
                 }
             }
@@ -53,12 +54,13 @@ class ServerFacade: IServer{
                 response.data()?.log()?.GPSPoints()?.forEach{
                     gpsPoints.add(GPSPoint(it?.latitude()!!.toDouble(), it?.longitude()!!.toDouble(), it?.altitude()!!.toDouble()))
                 }
-                var startTime : Long? = response.data()?.log()?.startTime()?.toLong()
-                var duration : Long? = response.data()?.log()?.startTime()?.toLong()
-                var distance : Double? = response.data()?.log()?.startTime()
-                var valid : Boolean? = response.data()?.log()?.valid()
-                var points : Int? = response.data()?.log()?.points()
-                log = Log(startTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints)
+                val startTime : Long? = response.data()?.log()?.startTime()?.toLong()
+                val endTime : Long? = response.data()?.log()?.endTime()?.toLong()
+                val duration : Long? = response.data()?.log()?.startTime()?.toLong()
+                val distance : Double? = response.data()?.log()?.startTime()
+                val valid : Boolean? = response.data()?.log()?.valid()
+                val points : Int? = response.data()?.log()?.points()
+                log = Log(startTime!!, endTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints)
                 cb.call(log)
             }
             })
@@ -143,10 +145,6 @@ class ServerFacade: IServer{
         apolloClient.mutate(
                 CreateLogMutation.builder()
                         .startTime(log.startTime.toDouble())
-                        .duration(log.duration.toDouble())
-                        .distance(log.distance)
-                        .valid(log.valid)
-                        .points(log.points)
                         .build()
         ).enqueue(object: ApolloCall.Callback<CreateLogMutation.Data>() {
             override fun onFailure(e: ApolloException) {
@@ -164,10 +162,6 @@ class ServerFacade: IServer{
             apolloClient.mutate(
                     CreateLogMutation.builder()
                             .startTime(log.startTime.toDouble())
-                            .duration(log.duration.toDouble())
-                            .distance(log.distance)
-                            .valid(log.valid)
-                            .points(log.points)
                             .build()
             ).enqueue(object: ApolloCall.Callback<CreateLogMutation.Data>() {
                 override fun onFailure(e: ApolloException) {

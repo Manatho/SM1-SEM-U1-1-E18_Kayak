@@ -30,8 +30,13 @@ const resolvers = {
         async createLog(_, {input}) {
             const count = await Log.countDocuments();
             const log = new Log({
-                id: count + 1,
                 ...input,
+                id: count + 1,
+                endTime: Date.now,
+                duration: endTime - startTime,
+                distance: calculateDistance(),
+                valid: validate(),
+                points: calculatePoints()            
             });
             await log.save();
             return log.toObject();

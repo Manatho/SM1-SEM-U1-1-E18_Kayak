@@ -2,6 +2,7 @@ query log($id: Int) {
   log(id: $id) {
     id
     startTime
+    endTime
     duration
     distance
     valid
