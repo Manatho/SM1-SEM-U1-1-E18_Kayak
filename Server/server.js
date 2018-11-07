@@ -2,7 +2,7 @@ var express = require("express");
 var express_graphql = require("express-graphql");
 const schema = require("./data/schema");
 
-const onWaterProcessor = require("./processors/onWater");
+const onWaterProcessor = require("./processing/onWater");
 
 const port = 4000;
 
