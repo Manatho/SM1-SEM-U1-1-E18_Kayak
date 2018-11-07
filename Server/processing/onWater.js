@@ -1,6 +1,6 @@
 const getPixel = require("get-pixels");
 
-async function getImageAtCoord(coord) {
+function getImageAtCoord(coord) {
   let url = "https://maps.googleapis.com/maps/api/staticmap?";
 
   let params = {
@@ -16,27 +16,37 @@ async function getImageAtCoord(coord) {
     url += `&${key}=${params[key]}`;
   }
 
-  await getPixel(url, (err, pixels) => {
-    let { shape } = pixels;
-    let width = shape[0];
-    let height = shape[1];
-
-
-    let pixelCount = 0;
-    let sum = 0;
-    for (let x = 0; x < width; x++) {
-      for (let y = Math.round(height * 0.25); y < Math.round(height * 0.75); y++) {
-        pixelCount++;
-        sum += pixels.get(x,y,3)
-      }
-    }
-    let waterPercentage = sum/pixelCount
-    console.log(`Water percentage = ${Math.round(waterPercentage * 100) / 100}%`)
+  return new Promise((resolve, reject) => {
+    getPixel(url, (err, pixels) => {
+      if (err) return reject(err);
+      resolve(pixels)
+    });
   });
 }
 
 module.exports = {
-  process(points) {
-    getImageAtCoord({ latitude: 55.3496028, longitude: 10.361572 });
+  async process(points) {
+    const pixels = await getImageAtCoord({ latitude: 55.3496028, longitude: 10.361572 });
+
+    let { shape } = pixels;
+    let width = shape[0];
+    let height = shape[1];
+
+    let pixelCount = 0;
+    let sum = 0;
+    for (let x = 0; x < width; x++) {
+      for (
+        let y = Math.round(height * 0.25);
+        y < Math.round(height * 0.75);
+        y++
+      ) {
+        pixelCount++;
+        sum += pixels.get(x, y, 3);
+      }
+    }
+    let waterPercentage = sum / pixelCount;
+    console.log(
+      `Water percentage = ${Math.round(waterPercentage * 100) / 100}%`
+    );
   }
 };
