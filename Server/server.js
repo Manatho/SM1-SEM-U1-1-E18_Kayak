@@ -23,7 +23,7 @@ app.get("/test", async function(req, res) {
   font-family: Monospace;
   letter-spacing: -1px;
   white-space: pre-line;
-  ">${test}</div>`);
+  ">${test.debuggingOutput}</div>`);
 });
 
 app.use(

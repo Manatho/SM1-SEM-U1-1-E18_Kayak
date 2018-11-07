@@ -76,12 +76,22 @@ module.exports = {
 			text += "\n";
 			//text +=
 		}
-		return `Misses: ${misses} MissRatio: ${(misses / points.length).toFixed(2)} 
-		TotalOff: ${totalOffWaterDistance.toFixed(2)}  AverageOff: ${(totalOffWaterDistance / points.length).toFixed(2)} AverageRealDistanceOff: ${(
-			totalOffWaterDistance /
-			points.length /
-			3
-		).toFixed(2)} \n\n ${text}`;
+
+		let totalOff = totalOffWaterDistance;
+		let AverageOff = totalOffWaterDistance / points.length;
+		let AverageRealDistanceOff = totalOffWaterDistance / points.length / 3;
+		let missratio = misses / points.length;
+
+		return {
+			debuggingOutput:
+				`Misses: ${misses} MissRatio: ${missratio.toFixed(2)} ` +
+				`TotalOff: ${totalOff.toFixed(2)}  AverageOff: ${AverageOff.toFixed(2)} ` +
+				` AverageRealDistanceOff: ${AverageRealDistanceOff.toFixed(2)} \n\n ${text} `,
+			totalOff: totalOff,
+			AverageOff: AverageOff,
+			AverageRealDistanceOff: AverageRealDistanceOff,
+			missratio: missratio
+		};
 	}
 };
 
