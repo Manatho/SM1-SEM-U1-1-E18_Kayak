@@ -14,14 +14,15 @@ app.get("/test", async function(req, res) {
 		{ latitude: 55.3496228, longitude: 10.361672 },
 		{ latitude: 55.3496228, longitude: 10.361752 },
 		{ latitude: 55.3496228, longitude: 10.361832 },
-		{ latitude: 55.3496228, longitude: 10.361912 }
+		{ latitude: 55.3496228, longitude: 10.361912 },
+		{ latitude: 55.3496228, longitude: 10.362052 },
+		{ latitude: 55.3496228, longitude: 10.362132 },
+		{ latitude: 55.3496258, longitude: 10.3622 }
 	]);
-	console.log(test);
 	res.send(`<div style="
-  height:10000px; 
   font-family: Monospace;
   letter-spacing: -1px;
-  width: 900px;
+  white-space: pre-line;
   ">${test}</div>`);
 });
 

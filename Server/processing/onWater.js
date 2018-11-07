@@ -27,6 +27,8 @@ function getImageAtCoord(coord) {
 module.exports = {
 	async process(points) {
 		let text = "";
+		let totalOffWaterDistance = 0;
+		let misses = 0;
 
 		//const pixels = await getImageAtCoord({ latitude: 55.3496028, longitude: 10.361572 });
 
@@ -63,15 +65,23 @@ module.exports = {
 
 			if (sum != 0) {
 				let result = closestWaterPixel(watercoords, centercoords, width, yEndIndex - yStartIndex);
+				totalOffWaterDistance += result.d;
 				text += drawPng(width, yEndIndex - yStartIndex, watercoords, result);
 				text += `center:  ${JSON.stringify(centercoords)} Nearst water: ${JSON.stringify(result)}\n`;
 			} else {
 				text += "Couldn't find any water\n";
+				misses++;
 			}
-
 			text += `Water percentage = ${(waterPercentage * 100).toFixed(2)}%\n`;
+			text += "\n";
+			//text +=
 		}
-		return text;
+		return `Misses: ${misses} MissRatio: ${(misses / points.length).toFixed(2)} 
+		TotalOff: ${totalOffWaterDistance.toFixed(2)}  AverageOff: ${(totalOffWaterDistance / points.length).toFixed(2)} AverageRealDistanceOff: ${(
+			totalOffWaterDistance /
+			points.length /
+			3
+		).toFixed(2)} \n\n ${text}`;
 	}
 };
 
