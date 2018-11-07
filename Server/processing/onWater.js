@@ -1,21 +1,42 @@
-const axios = require("axios");
 const getPixel = require("get-pixels");
 
+async function getImageAtCoord(coord) {
+  let url = "https://maps.googleapis.com/maps/api/staticmap?";
+
+  let params = {
+    key: "AIzaSyAy4urcUkronsRlssePjURjnG7RcPzM1ys",
+    center: `${coord.latitude},${coord.longitude}`,
+    zoom: 18,
+    size: "48x96",
+    style:
+      "feature:all|visibility:off&style=feature:water|visibility:on&style=feature:water|color:0x0000FF"
+  };
+
+  for (let key in params) {
+    url += `&${key}=${params[key]}`;
+  }
+
+  await getPixel(url, (err, pixels) => {
+    let { shape } = pixels;
+    let width = shape[0];
+    let height = shape[1];
+
+
+    let pixelCount = 0;
+    let sum = 0;
+    for (let x = 0; x < width; x++) {
+      for (let y = Math.round(height * 0.25); y < Math.round(height * 0.75); y++) {
+        pixelCount++;
+        sum += pixels.get(x,y,3)
+      }
+    }
+    let waterPercentage = sum/pixelCount
+    console.log(`Water percentage = ${Math.round(waterPercentage * 100) / 100}%`)
+  });
+}
+
 module.exports = {
-  async process(points) {
-    return await axios.default
-      .get(
-        "https://maps.googleapis.com/maps/api/staticmap?&center=55.3496028,10.361572&zoom=18&size=48x96&style=feature:all%7Cvisibility:off&style=feature:water%7Cvisibility:on&style=feature:water%7Ccolor:0x0000FF"
-        //   {
-        //     params: {
-        //       center: "55.3496028,10.361572",
-        //       zoom: 18,
-        //       size: "48z96",
-        //       style: "feature:all|visibility:off",
-        //       style: "feature:water|visibility:on",
-        //       style: "feature:water|color:0x0000FF"
-        //     }
-        //   }
-      )
+  process(points) {
+    getImageAtCoord({ latitude: 55.3496028, longitude: 10.361572 });
   }
 };

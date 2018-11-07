@@ -9,13 +9,9 @@ const port = 4000;
 var app = express();
 
 app.get("/test", async function(req, res) {
-  const {data} = await onWaterProcessor.process([]);
-  console.log("route output: ", data.length);
-  res.writeHead(200, {
-    "Content-Type": "image/png",
-    "Content-Length": data.length
-  });
-  res.end(data, 'hex');
+  const test = onWaterProcessor.process([]);
+  console.log(test)
+  res.send('testing')
 });
 
 app.use(
