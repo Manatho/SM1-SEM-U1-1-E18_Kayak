@@ -1,58 +1,51 @@
-const {Log, GPSPoint} = require('./mongodb');
+const Log = require("../models/Log");
+const { GraphQLScalarType } = require("graphql");
+const { Kind } = require("graphql/language");
 
-const resolvers = {
-    Query: {
-        log(_, args) {
-            return Log.findOne(args);
-        },
-        allLogs() {
-            return Log.find();
-        },
-        GPSPoint(_, args) {
-            return Log.find(args);
-        },
-        allGPSPoints() {
-            return GPSPoint.find();
-        },
+module.exports = {
+  Query: {
+    async log(_, args) {
+      GPSPoint;
+      return await Log.findOne(args);
     },
-    Log: {
-       GPSPoints(log) {
-           return GPSPoint.find({log});
-       },  
-    },
-    GPSPoint: {
-        log(GPSPoint) {
-            return Log.findById(GPSPoint.log);
-        },
-    },
+    async allLogs() {
+      return await Log.find();
+    }
+  },
+  GPSPoint: {},
 
-    Mutation: {
-        async createLog(_, {input}) {
-            const count = await Log.countDocuments();
-            const log = new Log({
-                ...input,
-                id: count + 1,
-                endTime: Date.now,
-                duration: endTime - startTime,
-                distance: calculateDistance(),
-                valid: validate(),
-                points: calculatePoints()            
-            });
-            await log.save();
-            return log.toObject();
-        },
-        async createGPSPoint(_, {input}) {
-            const log = await Log.findOne({id: input.log});
-            const count = await GPSPoint.countDocuments();
-            const gpsPoint = new GPSPoint({
-                ...input,
-                log: log._id,
-                id: count + 1     
-            });
-            await gpsPoint.save();
-            return gpsPoint.toObject();
+  Mutation: {
+    async createLog(_, { logInput }) {
+      console.log(logInput);
+      let log = new Log({
+        ...logInput,
+        distance: 0
+      });
+      
+      log.save(function (err) {
+        if (err) { 
+            console.log(err);
         }
-    },
-};
+        console.log("test")
+    });
+      return log.toObject();
+    }
+  },
 
-module.exports = resolvers;
+  Date: new GraphQLScalarType({
+    name: "Date",
+    description: "Date custom scalar type",
+    parseValue(value) {
+      return new Date(value); // value from the client
+    },
+    serialize(value) {
+      return value.getTime(); // value sent to the client
+    },
+    parseLiteral(ast) {
+      if (ast.kind === Kind.INT) {
+        return new Date(ast.value); // ast value is always in string format
+      }
+      return null;
+    }
+  })
+};

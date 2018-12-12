@@ -1,14 +1,20 @@
 const mongoose = require('mongoose');
 
+const GPSPointSchema = new mongoose.Schema({
+    time: { type: Date },
+    latitude: { type: Number },
+    longitude: { type: Number },
+    altitude: { type: Number },
+  }, {id: false});
+
 const logSchema = new mongoose.Schema({
-    id: {type: Number},
-    startTime: {type: Number},
-    endTime: {type: Number},
+    startTime: {type: Date},
+    endTime: {type: Date},
     duration: {type: Number},
     distance: {type: Number},
     valid: {type: Boolean},
     points: {type: Number},
-    GPSPoints: [{type: mongoose.Schema.Types.ObjectId, ref: 'GPSPoint'}],
+    gpsPoints: [GPSPointSchema],
 });
 
-module.exports = logSchema;
+module.exports = mongoose.model('Log', logSchema);

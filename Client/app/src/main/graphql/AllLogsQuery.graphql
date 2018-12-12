@@ -1,14 +1,15 @@
 query allLogs {
   allLogs {
-    id
+    _id
     startTime
     endTime
     duration
     distance
     valid
     points
-    GPSPoints {
-      id
+    gpsPoints {
+      _id
+      time
       latitude
       longitude
       altitude

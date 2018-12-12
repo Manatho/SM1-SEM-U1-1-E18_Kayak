@@ -117,8 +117,8 @@ class GetLogsActivity : AppCompatActivity() {
             fun display(log: Log) {
                 currentLog = log
 
-                val logDate = Date(log.startTime)
-                val logEndDate = Date(log.startTime + log.duration)
+                val logDate = log.startTime
+                val logEndDate = log.endTime
 
                 date.text = DateFormat.format("dd-MMM-yyyy", logDate)
                 startTime.text = DateFormat.format("HH:mm", logDate)

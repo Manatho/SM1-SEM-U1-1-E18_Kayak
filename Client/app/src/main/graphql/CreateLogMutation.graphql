@@ -1,5 +1,5 @@
-mutation createLog($startTime: Float) {
-  createLog(input: {startTime: $startTime}) {
-    startTime
+mutation createLog($logInput: LogInput!) {
+  createLog(logInput: $logInput) {
+    _id
   }
 }

@@ -7,12 +7,12 @@ import java.io.Serializable
 import java.util.*
 
 @Parcelize
-data class  Log (val startTime: Long, val endTime: Long, val duration: Long, val distance : Double, val valid : Boolean, val points : Int, val gpsPoints : MutableList<GPSPoint>) : Parcelable {
-    constructor(startTime : Long) : this(startTime, 0,0, 0.0, false, 0, mutableListOf())
+data class  Log (val startTime: Date, val endTime: Date?, val duration: Long, val distance : Double, val valid : Boolean, val points : Int, val gpsPoints : MutableList<GPSPoint>) : Parcelable {
+    constructor(startTime : Date) : this(startTime, null,0, 0.0, false, 0, mutableListOf())
 }
 
 @Parcelize
-data class GPSPoint(var latitude : Double, var longitude : Double, var altitude : Double) : Parcelable{
+data class GPSPoint(var time : Date, var latitude : Double, var longitude : Double, var altitude : Double) : Parcelable{
     fun of(location : Location) {
         latitude = location.latitude
         longitude = location.longitude
@@ -28,3 +28,5 @@ data class GPSPoint(var latitude : Double, var longitude : Double, var altitude 
         return location;
     }
 }
+
+data class AccelerometerData(var x : Float, var y : Float, var z : Float)

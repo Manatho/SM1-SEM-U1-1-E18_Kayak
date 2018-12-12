@@ -1,14 +1,15 @@
-query log($id: Int) {
+query log($id: ID) {
   log(id: $id) {
-    id
+    _id
     startTime
     endTime
     duration
     distance
     valid
     points
-    GPSPoints {
-      id
+    gpsPoints {
+      _id
+      time
       latitude
       longitude
       altitude

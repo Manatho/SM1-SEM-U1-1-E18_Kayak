@@ -1,6 +1,7 @@
 package kayaklers.sdu.dk.kayaklers.apollo
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.response.CustomTypeAdapter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -18,6 +19,7 @@ class ApolloClient {
             return ApolloClient.builder()
                     .serverUrl(BASE_URL)
                     .okHttpClient(okHttp)
+                    .addCustomTypeAdapter(type.CustomType.DATE, DateTypeAdapter())
                     .build()
         }
     }

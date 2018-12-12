@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const LogSchema = require('../models/Log');
-const GPSPointSchema = require('../models/GPSPoint');
 
 mongoose.Promise = global.Promise;
 
@@ -12,9 +10,3 @@ mongoose.connect('mongodb://localhost:27017/kayaklers', {useNewUrlParser: true})
         console.error("Problem with connection to MongoDB", err.stack);
         process.exit(1);
     });
-
-const Log = mongoose.model('Log', LogSchema);
-const GPSPoint = mongoose.model('GPSPoint', GPSPointSchema);
-
-exports.Log = Log;
-exports.GPSPoint = GPSPoint;
