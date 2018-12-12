@@ -16,7 +16,6 @@ import android.widget.TextView
 import kayaklers.sdu.dk.kayaklers.data.Log
 import kayaklers.sdu.dk.kayaklers.services.Callback
 import kayaklers.sdu.dk.kayaklers.services.ServerFacade
-import java.util.*
 import kotlin.collections.ArrayList
 
 const val DATA_MESSAGE = "kayaklers.sdu.dk.kayaklers.activities.GetLogsActivity.DATA_MESSAGE"
@@ -36,32 +35,24 @@ class GetLogsActivity : AppCompatActivity() {
         //var data = intent.getSerializableExtra(DATA_MESSAGE)
 
         // TESTING GETTING FROM API
+        val rv : RecyclerView = findViewById(R.id.list)
+        rv.layoutManager = LinearLayoutManager(this)
+
         val serverFacade = ServerFacade()
+        val self = this
         var data = serverFacade.getLogs(cb = object : Callback<MutableList<Log>> {
             override fun call(logs: MutableList<Log>) {
-                android.util.Log.e("LOG", logs.toString())
+                android.util.Log.i("LOG", logs.toString())
+                runOnUiThread{
+                    rv.adapter = LogAdapter(logs, self)
+                }
             }
         })
 
 
-
-
-        //android.util.Log.e("GPSPoint", serverFacade.getLog(1).toString())
-
-
-
-        val rv : RecyclerView = findViewById(R.id.list)
-        rv.layoutManager = LinearLayoutManager(this)
-
-        if(data != null){
-            rv.adapter = LogAdapter((data as ArrayList<Log>).toTypedArray(), this)
-        } else {
-            rv.adapter = LogAdapter(arrayOf(), this)
-        }
-
     }
 
-    class LogAdapter(private val logs : Array<Log>, private val activity : AppCompatActivity) : RecyclerView.Adapter<LogAdapter.MyViewHolder>() {
+    class LogAdapter(private val logs: MutableList<Log>, private val activity: AppCompatActivity) : RecyclerView.Adapter<LogAdapter.MyViewHolder>() {
 
         override fun getItemCount() = logs.size
 

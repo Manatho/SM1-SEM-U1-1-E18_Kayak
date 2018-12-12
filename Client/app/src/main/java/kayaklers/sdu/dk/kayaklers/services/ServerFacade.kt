@@ -28,12 +28,12 @@ class ServerFacade: IServer{
                 response.data()?.allLogs()?.forEach {
                     var gpsPoints: MutableList<GPSPoint> = mutableListOf()
                     for (gpsPoint in it.gpsPoints().orEmpty()){
-                        gpsPoints.add(GPSPoint(Date(gpsPoint?.time() as Long), gpsPoint?.latitude()!!.toDouble(), gpsPoint?.longitude()!!.toDouble(), gpsPoint?.altitude()!!.toDouble()))
+                        gpsPoints.add(GPSPoint(gpsPoint?.time() as Date, gpsPoint?.latitude()!!.toDouble(), gpsPoint?.longitude()!!.toDouble(), gpsPoint?.altitude()!!.toDouble()))
                     }
-                    val startTime : Date? = it.startTime() as Date
-                    val endTime : Date? = it.endTime() as Date
+                    val startTime : Date? = it?.startTime() as Date
+                    val endTime : Date? = it?.endTime() as Date
                     val duration : Long? = it.duration()?.toLong()
-                    val distance : Double? = it.distance()
+                    val distance : Double? = it?.distance()
                     val valid : Boolean? = it?.valid()
                     val points : Int? = it?.points()
                     logs.add(Log(startTime!!, endTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints))
@@ -86,6 +86,8 @@ class ServerFacade: IServer{
                     .build()
         }
         var logInput = LogInput.builder().gpsPoints(gpsPointsInput).build()
+
+        //TODO: get startTime and endTime from gps points
 
         apolloClient.mutate(
                 CreateLogMutation.builder().logInput(logInput)
