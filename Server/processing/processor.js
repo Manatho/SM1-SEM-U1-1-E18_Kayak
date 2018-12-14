@@ -20,6 +20,7 @@ async function process(log) {
 	log.startTime = filteredData[0].time;
 	log.endTime = filteredData[filteredData.length - 1].time;
 	log.duration = summary.duration;
+	log.distance = summary.totalDistance;
 
 	console.log("Calculating Points");
 	pointProcessing.calculatePoints(log, filteredData);

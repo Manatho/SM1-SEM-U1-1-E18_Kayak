@@ -59,7 +59,7 @@ module.exports = {
 			averageSpeed: totalSpeed / data.length,
 			minSpeed: minSpeed,
 			maxSpeed: maxSpeed,
-			totalDistance: totalDistance,
+			totalDistance: totalDistance / 1000,
 			duration: data[data.length - 1].time - data[0].time,
 			debuggingOutput: `AVERAGE SPEED: ${totalSpeed / data.length} MIN SPEED: ${minSpeed} MAX SPEED: ${maxSpeed} DISTANCE: ${(
 				totalDistance / 1000
