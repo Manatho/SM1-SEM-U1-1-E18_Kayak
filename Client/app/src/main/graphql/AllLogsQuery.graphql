@@ -5,7 +5,6 @@ query allLogs {
     endTime
     duration
     distance
-    valid
     points
     gpsPoints {
       _id
@@ -13,6 +12,8 @@ query allLogs {
       latitude
       longitude
       altitude
+      valid
+      speed
     }
   }
 }

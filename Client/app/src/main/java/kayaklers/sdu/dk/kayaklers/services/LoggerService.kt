@@ -164,6 +164,7 @@ class LoggerService : IntentService("LoggerService"), SensorEventListener {
 
     }
 
+
     override fun onSensorChanged(event: SensorEvent?) {
         var x  = event?.values!![0]
         var y  = event?.values!![1]

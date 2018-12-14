@@ -46,19 +46,21 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                lastLocation = p0.lastLocation
-                //placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+        if(!intent.hasExtra("logBundle")){
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(p0: LocationResult) {
+                    super.onLocationResult(p0)
+                    lastLocation = p0.lastLocation
+                }
             }
+            createLocationRequest()
         }
-        createLocationRequest()
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        map.getUiSettings().setZoomControlsEnabled(true)
+        map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
         setUpMap()
 
@@ -68,23 +70,28 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             val bundle = intent.getBundleExtra("logBundle")
             var selected_log = bundle.getParcelable("selected_log") as Log
             if(selected_log != null) {
-                var polylineOptions = PolylineOptions()
-                val latLngList: MutableList<LatLng> = mutableListOf<LatLng>()
-                for(gpsPoint in selected_log.gpsPoints) {
-                    latLngList.add(LatLng(gpsPoint.latitude, gpsPoint.longitude))
+                selected_log.gpsPoints.forEachIndexed{index, gpsPoint ->
+                    if(index.rem(selected_log.gpsPoints.size-1)  != 0)
+                        if(gpsPoint.valid) {
+                            googleMap.addPolyline(PolylineOptions()
+                                    .add(LatLng(gpsPoint.latitude, gpsPoint.longitude), LatLng(selected_log.gpsPoints[index+1].latitude, selected_log.gpsPoints[index+1].longitude))
+                                    .width(5f)
+                                    .color(Color.RED)
+                            )
+                        } else {
+                            googleMap.addPolyline(PolylineOptions()
+                                    .add(LatLng(gpsPoint.latitude, gpsPoint.longitude), LatLng(selected_log.gpsPoints[index+1].latitude, selected_log.gpsPoints[index+1].longitude))
+                                    .width(5f)
+                                    .color(Color.BLUE)
+                            )
+                        }
                 }
-                polylineOptions.addAll(latLngList)
-                polylineOptions
-                        .width(5F)
-                        .color(Color.RED)
-
-                map.addPolyline(polylineOptions)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(selected_log.gpsPoints[0].latitude, selected_log.gpsPoints[0].longitude), 12f))
             }
         }
     }
 
     private fun startLocationUpdates() {
-        //1
         if (ActivityCompat.checkSelfPermission(this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,

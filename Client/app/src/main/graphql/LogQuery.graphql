@@ -5,7 +5,6 @@ query log($id: ID) {
     endTime
     duration
     distance
-    valid
     points
     gpsPoints {
       _id
@@ -13,6 +12,8 @@ query log($id: ID) {
       latitude
       longitude
       altitude
+      valid
+      speed
     }
   }
 }

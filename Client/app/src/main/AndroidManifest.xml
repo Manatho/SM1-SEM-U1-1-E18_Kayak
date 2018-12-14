@@ -33,7 +33,6 @@
         <activity android:name=".activities.GetLogsActivity" />
         <activity android:name=".activities.NewLogActivity" />
         <activity android:name=".activities.MapActivity" />
-        <activity android:name=".activities.WeatherActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"

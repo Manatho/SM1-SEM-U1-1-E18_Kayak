@@ -16,6 +16,7 @@ import android.widget.TextView
 import kayaklers.sdu.dk.kayaklers.data.Log
 import kayaklers.sdu.dk.kayaklers.services.Callback
 import kayaklers.sdu.dk.kayaklers.services.ServerFacade
+import java.util.*
 import kotlin.collections.ArrayList
 
 const val DATA_MESSAGE = "kayaklers.sdu.dk.kayaklers.activities.GetLogsActivity.DATA_MESSAGE"

@@ -28,15 +28,14 @@ class ServerFacade: IServer{
                 response.data()?.allLogs()?.forEach {
                     var gpsPoints: MutableList<GPSPoint> = mutableListOf()
                     for (gpsPoint in it.gpsPoints().orEmpty()){
-                        gpsPoints.add(GPSPoint(gpsPoint?.time() as Date, gpsPoint?.latitude()!!.toDouble(), gpsPoint?.longitude()!!.toDouble(), gpsPoint?.altitude()!!.toDouble()))
+                        gpsPoints.add(GPSPoint(gpsPoint?.time() as Date, gpsPoint?.latitude()!!.toDouble(), gpsPoint?.longitude()!!.toDouble(), gpsPoint?.altitude()!!.toDouble(), gpsPoint?.valid() as Boolean, gpsPoint?.speed()!!.toDouble()))
                     }
                     val startTime : Date? = it?.startTime() as Date
                     val endTime : Date? = it?.endTime() as Date
                     val duration : Long? = it.duration()?.toLong()
                     val distance : Double? = it?.distance()
-                    val valid : Boolean? = it?.valid()
                     val points : Int? = it?.points()
-                    logs.add(Log(startTime!!, endTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints))
+                    logs.add(Log(startTime!!, endTime!!, duration!!, distance!!, points!!, gpsPoints))
                     cb.call(logs)
                 }
             }
@@ -57,7 +56,7 @@ class ServerFacade: IServer{
 
                 var gpsPoints: MutableList<GPSPoint> = mutableListOf()
                 response.data()?.log()?.gpsPoints()?.forEach{
-                    gpsPoints.add(GPSPoint(Date(it?.time() as Long), it?.latitude()!!.toDouble(), it?.longitude()!!.toDouble(), it?.altitude()!!.toDouble()))
+                    gpsPoints.add(GPSPoint(Date(it?.time() as Long), it?.latitude()!!.toDouble(), it?.longitude()!!.toDouble(), it?.altitude()!!.toDouble(), it?.valid() as Boolean, it?.speed()!!.toDouble()))
                 }
 
                 var it:LogQuery.Log = response.data()!!.log()!!
@@ -66,9 +65,8 @@ class ServerFacade: IServer{
                 val endTime : Date? = it.endTime() as Date
                 val duration : Long? = it.duration()?.toLong()
                 val distance : Double? = it.distance()
-                val valid : Boolean? = it?.valid()
                 val points : Int? = it?.points()
-                log = Log(startTime!!, endTime!!, duration!!, distance!!, valid!!, points!!, gpsPoints)
+                log = Log(startTime!!, endTime!!, duration!!, distance!!, points!!, gpsPoints)
                 cb.call(log)
             }
             })

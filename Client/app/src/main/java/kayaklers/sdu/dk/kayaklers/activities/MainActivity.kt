@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btn_logs: Button
     private lateinit var btn_new_log: Button
     private lateinit var btn_map: Button
-    private lateinit var btn_weather: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +24,10 @@ class MainActivity : AppCompatActivity() {
         btn_logs = findViewById(R.id.logs) as Button
         btn_new_log = findViewById(R.id.new_log) as Button
         btn_map = findViewById(R.id.map) as Button
-        btn_weather = findViewById(R.id.weather) as Button
 
         btn_logs.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View) {
+                /*
                 val data : ArrayList<Log> = ArrayList()
                 data.add(Log(Date(),null, 60 * 1000,10.0, true, 10, ArrayList()))
                 data.add(Log(Date(), null,120 * 1000,20.0, true, 20, ArrayList()))
@@ -36,8 +35,10 @@ class MainActivity : AppCompatActivity() {
                 data.add(Log(Date(), null, 240 * 1000,40.0, true, 40, ArrayList()))
 
 
+
                 val intent = Intent(this@MainActivity, GetLogsActivity::class.java);
                 intent.putExtra(DATA_MESSAGE, data)
+                */
                 startActivity(intent)
             }
         })
@@ -52,13 +53,6 @@ class MainActivity : AppCompatActivity() {
         btn_map.setOnClickListener(object: View.OnClickListener {
             override fun onClick(view: View) {
                 val intent = Intent(this@MainActivity, MapActivity::class.java);
-                startActivity(intent)
-            }
-        })
-
-        btn_weather.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(view: View) {
-                val intent = Intent(this@MainActivity, WeatherActivity::class.java);
                 startActivity(intent)
             }
         })
