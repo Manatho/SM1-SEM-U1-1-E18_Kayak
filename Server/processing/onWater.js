@@ -1,5 +1,6 @@
 const getPixel = require("get-pixels");
 const closestWaterPixel = require("./closestWaterPixel").closesPixel;
+const PIXEL_PR_METER = 3;
 
 function getImageAtCoord(coord) {
 	let url = "https://maps.googleapis.com/maps/api/staticmap?";
@@ -65,6 +66,8 @@ module.exports = {
 
 			if (sum != 0) {
 				let result = closestWaterPixel(watercoords, centercoords, width, yEndIndex - yStartIndex);
+				points[i].waterDistance = result.d / PIXEL_PR_METER;
+
 				totalOffWaterDistance += result.d;
 				text += drawPng(width, yEndIndex - yStartIndex, watercoords, result);
 				text += `center:  ${JSON.stringify(centercoords)} Nearst water: ${JSON.stringify(result)}\n`;
@@ -79,7 +82,7 @@ module.exports = {
 
 		let totalOff = totalOffWaterDistance;
 		let AverageOff = totalOffWaterDistance / points.length;
-		let AverageRealDistanceOff = totalOffWaterDistance / points.length / 3;
+		let AverageRealDistanceOff = totalOffWaterDistance / points.length / PIXEL_PR_METER;
 		let missratio = misses / points.length;
 
 		return {

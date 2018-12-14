@@ -18,7 +18,7 @@ function movingAverage(boxSpread, data) {
 			summedLon += parseFloat(data[actualIndex].longitude);
 		}
 
-		filteredData[i] = { latitude: summedLat / boxSize, longitude: summedLon / boxSize, time: data[i].time };
+		filteredData[i] = { latitude: summedLat / boxSize, longitude: summedLon / boxSize, time: data[i].time, altitude: data[i].altitude };
 		debug += i + ": latitude/longitude: " + filteredData[i].latitude.toFixed(8) + ", " + filteredData[i].longitude.toFixed(8) + "\n";
 	}
 	return {
@@ -47,7 +47,7 @@ function movingMedian(boxSpread, data) {
 
 		console.log(longs, lats);
 
-		filteredData[i] = { latitude: lats[boxSpread], longitude: longs[boxSpread], time: data[i].time };
+		filteredData[i] = { latitude: lats[boxSpread], longitude: longs[boxSpread], time: data[i].time, altitude: data[i].altitude };
 		debug += i + ": latitude/longitude: " + filteredData[i].latitude.toFixed(8) + ", " + filteredData[i].longitude.toFixed(8) + "\n";
 	}
 

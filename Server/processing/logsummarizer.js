@@ -20,13 +20,18 @@ module.exports = {
 					element.longitude.toFixed(8) +
 					" Speed: " +
 					element.speed +
+					" Distance to Next: " +
+					0 +
 					"\n";
 				break;
 			}
 
-			let distanceToNext = distance(element, nextElement);
-			element.speed = distanceToNext / (nextElement.time - element.time);
-			totalDistance += distanceToNext;
+			let distanceToNextMeters = distance(element, nextElement);
+			let deltaSeconds = (nextElement.time - element.time) / 1000;
+			element.speed = (distanceToNextMeters / 1000 / deltaSeconds) * 60 * 60;
+			element.distanceToNext = distanceToNextMeters;
+
+			totalDistance += distanceToNextMeters;
 			totalSpeed += element.speed;
 
 			if (element.speed < minSpeed) {
@@ -45,6 +50,8 @@ module.exports = {
 				element.longitude.toFixed(8) +
 				" Speed: " +
 				element.speed +
+				" Distance to Next: " +
+				element.distanceToNext +
 				"\n";
 		}
 
@@ -54,9 +61,9 @@ module.exports = {
 			maxSpeed: maxSpeed,
 			totalDistance: totalDistance,
 			duration: data[data.length - 1].time - data[0].time,
-			debuggingOutput: `AVERAGE SPEED: ${totalSpeed /
-				data.length} MIN SPEED: ${minSpeed} MAX SPEED: ${maxSpeed} DISTANCE: ${totalDistance} DURATION: ${data[data.length - 1].time -
-				data[0].time} |
+			debuggingOutput: `AVERAGE SPEED: ${totalSpeed / data.length} MIN SPEED: ${minSpeed} MAX SPEED: ${maxSpeed} DISTANCE: ${(
+				totalDistance / 1000
+			).toFixed(3)} DURATION: ${((data[data.length - 1].time - data[0].time) / 1000).toFixed(3)} |
             ${debugging}
             `
 		};
