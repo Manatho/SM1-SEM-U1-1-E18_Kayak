@@ -16,18 +16,16 @@ module.exports = {
 
   Mutation: {
     async createLog(_, { logInput }) {
-      console.log(logInput);
       let log = new Log({
         ...logInput,
         distance: 0
       });
-      
-      log.save(function (err) {
-        if (err) { 
-            console.log(err);
+
+      log.save(function(err) {
+        if (err) {
+          console.log(err);
         }
-        console.log("test")
-    });
+      });
       return log.toObject();
     }
   },
@@ -43,7 +41,9 @@ module.exports = {
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {
-        return new Date(ast.value); // ast value is always in string format
+        return new Date(new Number(ast.value)); // ast value is always in string format
+      } else if (ast.kind === Kind.STRING) {
+        return new Date(ast.value);
       }
       return null;
     }
