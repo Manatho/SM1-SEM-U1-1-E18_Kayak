@@ -76,13 +76,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                             googleMap.addPolyline(PolylineOptions()
                                     .add(LatLng(gpsPoint.latitude, gpsPoint.longitude), LatLng(selected_log.gpsPoints[index+1].latitude, selected_log.gpsPoints[index+1].longitude))
                                     .width(5f)
-                                    .color(Color.RED)
+                                    .color(Color.BLUE)
                             )
                         } else {
                             googleMap.addPolyline(PolylineOptions()
                                     .add(LatLng(gpsPoint.latitude, gpsPoint.longitude), LatLng(selected_log.gpsPoints[index+1].latitude, selected_log.gpsPoints[index+1].longitude))
                                     .width(5f)
-                                    .color(Color.BLUE)
+                                    .color(Color.RED)
                             )
                         }
                 }
