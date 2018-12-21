@@ -28,7 +28,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private lateinit var locationCallback: LocationCallback
-    private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
 
     companion object {
@@ -75,13 +74,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                         if(gpsPoint.valid) {
                             googleMap.addPolyline(PolylineOptions()
                                     .add(LatLng(gpsPoint.latitude, gpsPoint.longitude), LatLng(selected_log.gpsPoints[index+1].latitude, selected_log.gpsPoints[index+1].longitude))
-                                    .width(5f)
+                                    .width(15f)
                                     .color(Color.BLUE)
                             )
                         } else {
                             googleMap.addPolyline(PolylineOptions()
                                     .add(LatLng(gpsPoint.latitude, gpsPoint.longitude), LatLng(selected_log.gpsPoints[index+1].latitude, selected_log.gpsPoints[index+1].longitude))
-                                    .width(5f)
+                                    .width(15f)
                                     .color(Color.RED)
                             )
                         }
@@ -99,7 +98,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                     LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
+        fusedLocationClient.requestLocationUpdates(createLocationRequest(), locationCallback, null /* Looper */)
     }
 
     override fun onMarkerClick(p0: Marker?)= false
@@ -129,8 +128,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
      }
 
 
-    private fun createLocationRequest() {
-        locationRequest = LocationRequest()
+    private fun createLocationRequest() : LocationRequest {
+        var locationRequest = LocationRequest()
         locationRequest.interval = 10000
         locationRequest.fastestInterval = 5000
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -152,6 +151,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 }
             }
         }
+        return locationRequest
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -172,7 +172,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     public override fun onResume() {
         super.onResume()
         if (!locationUpdateState) {
-            startLocationUpdates()
+            //startLocationUpdates()
         }
     }
 }

@@ -46,6 +46,7 @@ class GetLogsActivity : AppCompatActivity() {
                 android.util.Log.i("LOG", logs.toString())
                 runOnUiThread{
                     rv.adapter = LogAdapter(logs, self)
+                    println("WOOB THINGS HAPPENED")
                 }
             }
         })

@@ -48,12 +48,13 @@ class NewLogActivity : AppCompatActivity() {
         val locationTracker = Intent(this@NewLogActivity, LoggerService::class.java)
         bindService(locationTracker, mConnection, Context.BIND_AUTO_CREATE)
 
-        fixedRateTimer("default", false, 0L, 1000){
+        fixedRateTimer("default", false, 0L, 100){
             runOnUiThread {
                 textDuration.text = loggerService?.getElapsedTime() ?: "00:00:00"
                 textDistance.text = loggerService?.getApproximateDistance() ?: "0.000"
                 debugText.text = "Locations: ${loggerService?.Locations?.count() ?: 0}" +
-                        "\nAccelerationData: ${loggerService?.Accelerations?.count() ?: 0}"
+                        "\nCurrent GPS Interval: ${loggerService?.GPSInterval}" +
+                        "\nInterpolation: ${loggerService?.interpolationFactor}"
             }
         }
 

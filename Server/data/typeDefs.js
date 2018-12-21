@@ -48,5 +48,6 @@ module.exports = gql`
 
 	type Mutation {
 		createLog(logInput: LogInput!): Log
+		exportAllLogs: String
 	}
 `;

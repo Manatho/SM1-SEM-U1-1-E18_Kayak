@@ -1,7 +1,10 @@
+const fs = require('fs')
+const path = require('path')
 const Log = require("../models/Log");
 const { GraphQLScalarType } = require("graphql");
 const { Kind } = require("graphql/language");
 const process = require("../processing/processor");
+
 
 module.exports = {
 	Query: {
@@ -30,6 +33,24 @@ module.exports = {
 				}
 			});
 			return log.toObject();
+		},
+		async exportAllLogs(){
+			var logs = await Log.find()
+			const logDir = path.join(__dirname, `../exports/`)
+			fs.mkdirSync(logDir, {recursive: true})
+			for (const log of logs) {
+				const logFile = path.join(logDir, `/${log.startTime.getTime()}.log`)
+				for (const p of log.gpsPoints){
+					fs.appendFileSync(logFile, `
+{
+	time: ${p.time.getTime()}
+	latitude: ${p.latitude}
+	longitude: ${p.longitude}
+	altitude: ${p.altitude}
+}
+					`)
+				}
+			}
 		}
 	},
 

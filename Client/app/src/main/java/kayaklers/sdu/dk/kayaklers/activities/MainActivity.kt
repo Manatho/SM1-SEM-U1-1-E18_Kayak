@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity() {
                 data.add(Log(Date(), null, 240 * 1000,40.0, true, 40, ArrayList()))
 
 
-
-                val intent = Intent(this@MainActivity, GetLogsActivity::class.java);
-                intent.putExtra(DATA_MESSAGE, data)
                 */
+                val intent = Intent(this@MainActivity, GetLogsActivity::class.java);
+                //intent.putExtra(DATA_MESSAGE, data)
+
                 startActivity(intent)
             }
         })

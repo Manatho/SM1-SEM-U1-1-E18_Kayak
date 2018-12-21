@@ -2,18 +2,18 @@ const mongoose = require("mongoose");
 
 const GPSPointSchema = new mongoose.Schema(
 	{
-		time: { type: Date },
-		latitude: { type: Number },
-		longitude: { type: Number },
-		altitude: { type: Number },
-		valid: { type: Boolean },
-		speed: { type: Number }
+		time: { type: Date, required: true },
+		latitude: { type: Number, required: true},
+		longitude: { type: Number, required: true },
+		altitude: { type: Number, required: true },
+		valid: { type: Boolean, default: false },
+		speed: { type: Number, default: 0 }
 	},
 	{ id: false }
 );
 
 const logSchema = new mongoose.Schema({
-	startTime: { type: Date },
+	startTime: { type: Date, default: Date() },
 	endTime: { type: Date },
 	duration: { type: Number },
 	distance: { type: Number },

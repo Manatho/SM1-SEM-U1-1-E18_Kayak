@@ -28,7 +28,13 @@ class ServerFacade: IServer{
                 response.data()?.allLogs()?.forEach {
                     var gpsPoints: MutableList<GPSPoint> = mutableListOf()
                     for (gpsPoint in it.gpsPoints().orEmpty()){
-                        gpsPoints.add(GPSPoint(gpsPoint?.time() as Date, gpsPoint?.latitude()!!.toDouble(), gpsPoint?.longitude()!!.toDouble(), gpsPoint?.altitude()!!.toDouble(), gpsPoint?.valid() as Boolean, gpsPoint?.speed()!!.toDouble()))
+                        val date = gpsPoint?.time() as Date
+                        val lat = gpsPoint?.latitude()!!.toDouble()
+                        val lon = gpsPoint?.longitude()!!.toDouble()
+                        val alt = gpsPoint?.altitude()!!.toDouble()
+                        val valid = gpsPoint?.valid() == true
+                        val speed = gpsPoint?.speed()!!.toDouble()
+                        gpsPoints.add(GPSPoint(date, lat, lon, alt, valid, speed))
                     }
                     val startTime : Date? = it?.startTime() as Date
                     val endTime : Date? = it?.endTime() as Date
